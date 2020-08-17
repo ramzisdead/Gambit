@@ -37,6 +37,8 @@ extension MenuViewController {
         menuTableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         menuTableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         menuTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        
+        menuTableView.backgroundColor = .green
     }
     
 }
