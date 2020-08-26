@@ -37,6 +37,7 @@ class MenuPresenter: MenuPresenterProtocol {
     var itemsArray: [MenuItem]?
     
     func getMenuItems() {
+        self.view?.showLoading()
         AF.request("https://api.gambit-app.ru/category/39?page=1").responseData { response in
             switch response.result {
             case .success(let resultJSON):
@@ -48,6 +49,7 @@ class MenuPresenter: MenuPresenterProtocol {
             case .failure(let error):
                 print(error)
             }
+            self.view?.hideLoading()
         }
         print(self.itemsArray ?? "menuItems == nil")
     }

@@ -11,21 +11,21 @@ import Foundation
 
 // Позиция меню
 struct MenuItem: Codable {
-    let id : Int?
-    let name : String?
-    let image : String?
-    let price : Int?
-    let description : String?
-    let isFavorite : String?
-    let nutritionFacts : NutritionFacts?
+    var id : Int?
+    var name : String?
+    var image : String?
+    var price : Int?
+    var description : String?
+    var isFavorite : Bool?
+    var nutritionFacts : NutritionFacts?
     
     
     // Вес и БЖУ
     struct NutritionFacts : Codable {
-        let weight : Int?
-        let calories : Int?
-        let protein : Int?
-        let fat : Int?
-        let carbohydrates : Int?
+        var weight : Int?
+        var calories : Int?
+        var protein : Int?
+        var fat : Int?
+        var carbohydrates : Int?
     }
 }

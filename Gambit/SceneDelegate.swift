@@ -20,10 +20,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Присваиваем windowScene нашему window
         window = UIWindow(windowScene: windowScene)
         // Создаем ViewController и NavigationController
+        let tabBarController = TabBarController()
         let menuVC = MenuViewController()
+        let testVC = UIViewController()
+        testVC.view.backgroundColor = .white
         let navigationController = UINavigationController(rootViewController: menuVC)
+        navigationController.tabBarItem = UITabBarItem(title: "Меню", image: UIImage.init(systemName: "house.fill"), tag: 0)
+        testVC.tabBarItem = UITabBarItem(title: "Тест", image: UIImage.init(systemName: "house"), tag: 0)
+        tabBarController.setViewControllers([navigationController, testVC], animated: true)
         // Присваиваем rootViewController и делаем window видимым
-        window?.rootViewController = navigationController
+        window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
         
     }

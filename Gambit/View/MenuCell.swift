@@ -9,8 +9,8 @@
 import UIKit
 
 
-protocol tableViewClickButtonProtocol {
-    func clickAddButton(index: Int, senderCell: MenuCell)
+protocol cellButtonClickProtocol {
+    func addToCartFunc(index: Int, senderCell: MenuCell)
     func plusFunc(index: Int, senderCell: MenuCell)
     func minusFunc(index: Int, senderCell: MenuCell)
 }
@@ -18,7 +18,7 @@ protocol tableViewClickButtonProtocol {
 
 class MenuCell: UITableViewCell {
     
-    var cellDelegate: tableViewClickButtonProtocol?
+    var cellDelegate: cellButtonClickProtocol?
     var index: IndexPath?
     
     
@@ -108,15 +108,17 @@ class MenuCell: UITableViewCell {
     
     // MARK: - My functions
     
+    // Заполнение ячейки данными
     func setDataForCell(indexPath: IndexPath, menuItems: [MenuItem]) {
         let imageURL = menuItems[indexPath.row].image ?? ""
         let price = menuItems[indexPath.row].price
         
+        self.selectionStyle = .none
         self.titleLabel.text = menuItems[indexPath.row].name
         self.priceLabel.text = String(price ?? 0) + " ₽"
         self.itemImage.sd_setImage(with: URL(string: imageURL), completed: nil)
         
-        // Нужна проверка на плюс
+        // Проверка на плюс
         if Korzina.shared.isAddedToCart(item: menuItems[indexPath.row]) {
             self.showCount()
             let countInCart = Korzina.shared.checkCount(item: menuItems[indexPath.row])
@@ -127,36 +129,39 @@ class MenuCell: UITableViewCell {
     }
     
     
-    @objc func clickAddToCart(_ sender: UIButton) {
-        cellDelegate?.clickAddButton(index: index?.row ?? 0, senderCell: self)
-    }
-
-    
-    @objc func plusFunc(_ sender: UIButton) {
-        cellDelegate?.plusFunc(index: index?.row ?? 0, senderCell: self)
-        
-    }
-    
-    
-    @objc func minusFunc(_ sender: UIButton) {
-        cellDelegate?.minusFunc(index: index?.row ?? 0, senderCell: self)
-    }
-    
-    
+    // Сокрытие кнопок плюс, минус и строки с количеством
     func hideCount() {
         self.addToCartButton.isHidden = false
         self.plusButton.isHidden = true
         self.countLabel.isHidden = true
         self.minusButton.isHidden = true
-        //self.countLabel.text = ""
     }
     
     
+    // Отображение кнопок плюс, минус и количества
     func showCount() {
         self.addToCartButton.isHidden = true
         self.plusButton.isHidden = false
         self.minusButton.isHidden = false
         self.countLabel.isHidden = false
+    }
+    
+    
+    // MARK: - Button functions
+    
+    @objc func addToCartButtonFunc(_ sender: UIButton) {
+        cellDelegate?.addToCartFunc(index: index?.row ?? 0, senderCell: self)
+    }
+
+    
+    @objc func plusButtonFunc(_ sender: UIButton) {
+        cellDelegate?.plusFunc(index: index?.row ?? 0, senderCell: self)
+        
+    }
+    
+    
+    @objc func minusButtonFunc(_ sender: UIButton) {
+        cellDelegate?.minusFunc(index: index?.row ?? 0, senderCell: self)
     }
     
     
@@ -189,9 +194,9 @@ class MenuCell: UITableViewCell {
         self.containerView.addSubview(countLabel)
         
         // Чтобы работала функция у кнопки
-        self.addToCartButton.addTarget(self, action: #selector(clickAddToCart(_:)), for: .touchUpInside)
-        self.minusButton.addTarget(self, action: #selector(minusFunc(_:)), for: .touchUpInside)
-        self.plusButton.addTarget(self, action: #selector(plusFunc(_:)), for: .touchUpInside)
+        self.addToCartButton.addTarget(self, action: #selector(addToCartButtonFunc(_:)), for: .touchUpInside)
+        self.minusButton.addTarget(self, action: #selector(minusButtonFunc(_:)), for: .touchUpInside)
+        self.plusButton.addTarget(self, action: #selector(plusButtonFunc(_:)), for: .touchUpInside)
         
         // Image constraints
         itemImage.centerYAnchor.constraint(equalTo: self.contentView.centerYAnchor).isActive = true
