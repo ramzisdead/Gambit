@@ -10,6 +10,7 @@ import UIKit
 
 extension MenuViewController {
     
+    
     func createAnimatedView() {
         animatedView.layer.cornerRadius = 12
         animatedView.backgroundColor = .darkGray

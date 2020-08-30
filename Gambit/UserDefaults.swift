@@ -126,6 +126,8 @@ final class Korzina {
         return allPrice
     }
     
+    
+    // Подсчет количества позиций в корзине 
     func countItems() -> Int {
         return menu.count
     }
