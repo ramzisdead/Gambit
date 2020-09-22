@@ -94,3 +94,6 @@ iOSInjectionProject/
 
 # AppCode
 .idea
+
+# Data 
+*.xcuserstate
